@@ -16,6 +16,9 @@ export const analytics = asyncHandler(async (req: Request, res: Response) => {
   return ok(res, await getAnalytics(days));
 });
 
+export const recentIncidents = asyncHandler(async (_req: Request, res: Response) => {
+  const items = await DisasterReport.find({})
+    .sort({ createdAt: -1 })
     .limit(8)
     .populate('userId', 'name email')
     .lean();
