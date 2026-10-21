@@ -3,7 +3,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-// se
+// server/src/config -> server/
+export const SERVER_ROOT = path.resolve(here, '..', '..');
+
+dotenv.config({ path: path.join(SERVER_ROOT, '.env') });
+
 const int = (v: string | undefined, fallback: number) => {
   const n = Number(v);
   return Number.isFinite(n) && n > 0 ? n : fallback;
