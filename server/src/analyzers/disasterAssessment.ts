@@ -1,9 +1,14 @@
 import type { DisasterType, Severity, Urgency } from '../types/domain.js';
 import { assessmentConfig, type AssessmentConfig } from './assessmentConfig.js';
 
-export interface  {
+export interface AssessmentInput {
   disasterType: DisasterType;
-
+  description: string;
+  peopleAffected: number;
+  urgency: Urgency;
+  location?: { address?: string; latitude?: number; longitude?: number };
+  /** Optional explicit flags a caller can set instead of relying on text parsing. */
+  flags?: {
     medicalEmergency?: boolean;
     infrastructureDamage?: boolean;
     hazardousMaterials?: boolean;
