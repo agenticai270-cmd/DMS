@@ -57,12 +57,7 @@ export const submitReport = asyncHandler(async (req: Request, res: Response) => 
   );
 
   await notifyHighSeverityIncident({
-    reportId: report._id,
-    reportCode: report.reportCode,
-    severity: assessment.severity,
-    disasterLabel: DISASTER_LABELS[report.disasterType],
-    address: report.location.address,
-  });
+    reportId: r
 
   return created(res, { report: report.toJSON(), assessment: assessment.toJSON() });
 });

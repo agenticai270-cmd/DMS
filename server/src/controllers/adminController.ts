@@ -25,10 +25,7 @@ export const recentIncidents = asyncHandler(async (_req: Request, res: Response)
   return ok(res, { items });
 });
 
-export const listUsers = asyncHandler(async (req: Request, res: Response) => {
-  const q = userQuerySchema.parse(req.query);
-  const filters: Record<string, unknown> = {};
-  if (q.role) filters.role = q.role;
+e;
   if (q.search) {
     const rx = new RegExp(q.search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
     filters.$or = [{ name: rx }, { email: rx }];
@@ -44,10 +41,7 @@ export const listUsers = asyncHandler(async (req: Request, res: Response) => {
     { $match: { userId: { $in: users.map((u) => u._id) } } },
     { $group: { _id: '$userId', count: { $sum: 1 } } },
   ]);
-  const countMap = new Map(counts.map((c) => [String(c._id), c.count]));
-
-  const items = users.map((u) => ({
-    id: String(u._id),
+  const co
     name: u.name,
     email: u.email,
     role: u.role,
