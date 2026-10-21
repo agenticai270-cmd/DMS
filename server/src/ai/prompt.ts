@@ -40,7 +40,12 @@ export function buildUserPrompt(input: AiAssessmentRequest): string {
     `Engine resource suggestions: ${list(d.recommendedResources)}`,
     `Engine action suggestions: ${list(d.recommendedActions)}`,
     '',
-    'RESOURCES AVAILABLE NE
+    'RESOURCES AVAILABLE NEARBY',
+    input.availableResources.length ? list(input.availableResources) : 'None recorded in the system.',
+    '',
+    'Produce the JSON object now.',
+  ].join('\n');
+}
 
 const truncate = (s: string, max: number) => (s.length > max ? `${s.slice(0, max)}…` : s);
 const list = (items: string[]) => (items.length ? items.slice(0, 12).join('; ') : 'none');
