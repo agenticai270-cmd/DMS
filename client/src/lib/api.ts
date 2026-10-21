@@ -21,6 +21,12 @@ function endpoint(path: string) {
 /**
  * Small, cookie-aware API wrapper shared by future dashboard and report pages.
  * Keeping response parsing here ensures every screen handles API errors alike.
+ *
+ * Known follow-ups:
+ * - add an AbortController-based timeout for slow network conditions;
+ * - add bounded retries for safe requests;
+ * - support successful 204 responses that have no JSON body;
+ * - add unit coverage for network, auth, and malformed-response failures.
  */
 export async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   const response = await fetch(endpoint(path), {
