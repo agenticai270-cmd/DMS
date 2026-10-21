@@ -1,0 +1,11 @@
+{
+  "disasterType": "not-a-supported-disaster",
+  "description": "",
+  "urgency": "immediate",
+  "peopleAffected": -12,
+  "location": {
+    "address": "",
+    "latitude": 999,
+    "longitude": -999
+  }
+}

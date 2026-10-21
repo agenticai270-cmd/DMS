@@ -1,0 +1,8 @@
+{
+  "success": true,
+  "message": "This fixture is intentionally invalid",
+  "data": {
+    "reportId": 42,
+    "severity": "URGENT"
+  }
+}
