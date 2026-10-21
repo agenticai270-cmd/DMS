@@ -4,7 +4,10 @@ import { signToken } from '../middleware/auth.js';
 import { User } from '../models/User.js';
 import { ApiError } from '../utils/ApiError.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
-import { created, ok } from '../utils/a
+import { created, ok } from '../utils/apiResponse.js';
+import {
+  changePasswordSchema,
+  loginSchema,
   registerSchema,
   updateProfileSchema,
 } from '../validators/schemas.js';
