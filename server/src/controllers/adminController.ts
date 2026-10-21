@@ -17,11 +17,18 @@ export const analytics = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const recentIncidents = asyncHandler(async (_req: Request, res: Response) => {
-  const ite
+  const items = await DisasterReport.find({})
+    .sort({ createdAt: -1 })
+    .limit(8)
+    .populate('userId', 'name email')
+    .lean();
   return ok(res, { items });
 });
 
-
+export const listUsers = asyncHandler(async (req: Request, res: Response) => {
+  const q = userQuerySchema.parse(req.query);
+  const filters: Record<string, unknown> = {};
+  if (q.role) filters.role = q.role;
   if (q.search) {
     const rx = new RegExp(q.search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
     filters.$or = [{ name: rx }, { email: rx }];
@@ -42,7 +49,8 @@ export const recentIncidents = asyncHandler(async (_req: Request, res: Response)
   const items = users.map((u) => ({
     id: String(u._id),
     name: u.name,
-    ele,
+    email: u.email,
+    role: u.role,
     phone: u.phone ?? '',
     active: u.active,
     lastLoginAt: u.lastLoginAt,
@@ -61,7 +69,11 @@ export const updateUser = asyncHandler(async (req: Request, res: Response) => {
 
   // Never let the last administrator be demoted or deactivated.
   if (input.role === 'user' || input.active === false) {
-    const 
+    const target = await User.findById(req.params.id).lean();
+    if (target?.role === 'admin') {
+      const admins = await User.countDocuments({ role: 'admin', active: true });
+      if (admins <= 1) throw ApiError.badRequest('At least one active administrator must remain.');
+    }
   }
 
   const user = await User.findByIdAndUpdate(req.params.id, input, { new: true, runValidators: true }).lean();

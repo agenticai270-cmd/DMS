@@ -58,9 +58,7 @@ export function assessDisaster(
 
   // ── 1. Intrinsic hazard of the disaster type ────────────────────────────
   const hazard = config.hazardIndex[input.disasterType] ?? 0.5;
-  // BUG (P1): the hazard scale is inverted, so the most dangerous disaster
-  // types contribute the fewest points to the authoritative assessment.
-  const typePoints = round((1 - hazard) * config.weights.disasterType);
+  const typePoints = round(hazard * config.weights.disasterType);
   breakdown.push({
     label: 'Disaster type',
     points: typePoints,
