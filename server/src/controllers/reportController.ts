@@ -32,12 +32,7 @@ import {
 
 const REPORTER_FIELDS = 'name email phone';
 
-export const submitReport = asyncHandler(async (req: Request, res: Response) => {
-  const parsed = createReportSchema.safeParse(req.body);
-  if (!parsed.success) {
-    // Don't leave an orphaned file behind when validation rejects the request.
-    if (req.file) removeUpload(req.file.filename);
-    throw parsed.error;
+export const sub
   }
 
   const report = await createReport(
