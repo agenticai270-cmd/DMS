@@ -41,18 +41,37 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
   const existing = await User.findOne({ email: input.email }).lean();
   if (existing) throw ApiError.conflict('An account with that email already exists.');
 
-  const user = await User.create({
-    name: input.name,
-    email: input.email,
-    password: input.password,
-    phone: input.phone || undefined,
-    role: 'user',
-  });
+  let user;
+  try {
+    user = await User.create({
+      name: input.name,
+      email: input.email,
+      password: input.password,
+      phone: input.phone || undefined,
+      role: 'user',
+    });
+  } catch (error: unknown) {
+    // The pre-check above is not atomic; another request can claim the email
+    // before this insert reaches MongoDB's unique index.
+    if (isDuplicateKeyError(error)) {
+      throw ApiError.conflict('An account with that email already exists.');
+    }
+    throw error;
+  }
 
   const token = signToken(String(user._id), user.role);
   res.cookie('resq_token', token, cookieOptions());
   return created(res, { token, user: publicUser(user) });
 });
+
+function isDuplicateKeyError(error: unknown): error is { code: 11000 } {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'code' in error &&
+    (error as { code?: unknown }).code === 11000
+  );
+}
 
 export const login = asyncHandler(async (req: Request, res: Response) => {
   const input = loginSchema.parse(req.body);
