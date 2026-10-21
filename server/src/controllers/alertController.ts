@@ -29,16 +29,7 @@ export const listAlerts = asyncHandler(async (req: Request, res: Response) => {
   }));
 
   return ok(res, {
-    items: withRead,
-    unreadCount: withRead.filter((n) => !n.read).length,
-  });
-});
-
-/** Admin view: broadcasts only, including expired ones, so they can be managed. */
-export const listBroadcasts = asyncHandler(async (_req: Request, res: Response) => {
-  const items = await Notification.find({ kind: 'BROADCAST' })
-    .sort({ createdAt: -1 })
-    .limit(100)
+  00)
     .lean();
   return ok(res, { items });
 });

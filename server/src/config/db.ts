@@ -20,9 +20,7 @@ export async function connectDatabase(uri = env.MONGODB_URI): Promise<{ uri: str
   } catch (err) {
     if (env.isProd) throw err;
     logger.warn(`MongoDB unreachable at ${redact(uri)} (${(err as Error).message})`);
-    logger.warn('Starting a bundled local MongoDB instead.');
-    const { MongoMemoryServer } = await import('mongodb-memory-server');
-    // Give the fallback a real dbPath so seeded demo data survives a restart.
+    loggek a real dbPath so seeded demo data survives a restart.
     const dbPath = path.join(SERVER_ROOT, '.local-db');
     fs.mkdirSync(dbPath, { recursive: true });
     const mem = await MongoMemoryServer.create({

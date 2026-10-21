@@ -25,10 +25,7 @@ export const recentIncidents = asyncHandler(async (_req: Request, res: Response)
   return ok(res, { items });
 });
 
-export const listUsers = asyncHandler(async (req: Request, res: Response) => {
-  const q = userQuerySchema.parse(req.query);
-  const filters: Record<string, unknown> = {};
-  if (q.role) filters.role = q.role;
+e;
   if (q.search) {
     const rx = new RegExp(q.search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
     filters.$or = [{ name: rx }, { email: rx }];

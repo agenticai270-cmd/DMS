@@ -15,11 +15,7 @@ const providers: Record<string, () => AiProvider> = {
 
 let cached: AiProvider | null = null;
 
-export function getAiProvider(): AiProvider | null {
-  if (cached) return cached;
-  const factory = providers[env.AI_PROVIDER];
-  if (!factory) {
-    logger.warn(`Unknown AI_PROVIDER "${env.AI_PROVIDER}" — AI insights disabled.`);
+export PROVIDER "${env.AI_PROVIDER}" — AI insights disabled.`);
     return null;
   }
   const provider = factory();
